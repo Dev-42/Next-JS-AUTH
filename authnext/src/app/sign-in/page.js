@@ -5,15 +5,26 @@ import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 import { initialLoginFormData, userLoginFormControls } from "../utils";
 import { Button } from "@/components/ui/button";
+import { loginUser } from "@/actions";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
+  const router = useRouter();
   const [loginformData, setloginFormData] = useState(initialLoginFormData);
+
+  const handleUserLogin = async () => {
+    const result = await loginUser(loginformData);
+    if (result?.success) {
+      alert("User Logged in successfully");
+      router.push("/");
+    }
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-sm p-8 space-y-6 bg-white rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-center text-gray-700">Login</h1>
-        <form className="space-y-4">
+        <form action={handleUserLogin} className="space-y-4">
           {userLoginFormControls.map((controlItem, index) => (
             <div key={index} className="flex flex-col space-y-2">
               <Label className="text-gray-600">{controlItem.label}</Label>
