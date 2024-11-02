@@ -22,8 +22,29 @@ export const userRegistrationFormControls = [
   },
 ];
 
+export const userLoginFormControls = [
+  {
+    name: "email",
+    label: "Email",
+    placeholder: "Please enter your email",
+    componentType: "input",
+    type: "email",
+  },
+  {
+    name: "password",
+    label: "Password",
+    placeholder: "Please enter your password",
+    componentType: "input",
+    type: "password",
+  },
+];
+
 export const initialSignUpFormData = {
   userName: "",
+  email: "",
+  password: "",
+};
+export const initialLoginFormData = {
   email: "",
   password: "",
 };
