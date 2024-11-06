@@ -84,16 +84,46 @@ export const loginUser = async (loginData) => {
     };
 
     const token = jwt.sign(createdTokenData, "SECRET_KEY", { expiresIn: "1d" });
-    // store the token in cookies
-    cookies().set("token", token);
+
     return {
       success: true,
       message: "User is logged in successfully",
+      token,
     };
   } catch (e) {
     return {
       success: "false",
       message: "Some error occured while connecting to database",
     };
+  }
+};
+
+// display user details on the home screen
+export const fetchUser = async (token) => {
+  await connectToDB();
+  try {
+    if (!token) {
+      return {
+        success: false,
+        message: "Token is not provided or invalid",
+      };
+    }
+    // Decode the token
+    const decodedToken = jwt.verify(token, "SECRET_KEY");
+    const getUserInfo = await AuthUser.findOne({ _id: decodedToken?.id });
+    if (getUserInfo) {
+      return {
+        success: true,
+        data: JSON.parse(JSON.stringify(getUserInfo)),
+      };
+    } else {
+      return {
+        success: false,
+        message: "User is not present in the DB",
+      };
+    }
+  } catch (e) {
+    console.log(e);
+    console.log("Error connecting to the database");
   }
 };

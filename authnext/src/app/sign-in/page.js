@@ -18,6 +18,9 @@ const SignIn = () => {
       alert("User Logged in successfully");
       router.push("/");
     }
+    const passedToken = result?.token;
+    localStorage.setItem("token", passedToken);
+    console.log(passedToken);
   };
 
   return (
