@@ -1,62 +1,31 @@
 // SignIn Component
-"use client";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import React, { useState } from "react";
-import { initialLoginFormData, userLoginFormControls } from "../utils";
-import { Button } from "@/components/ui/button";
-import { loginUser } from "@/actions";
-import { useRouter } from "next/navigation";
+import AuthSignIn from "./AuthSignIn";
 
 const SignIn = () => {
-  const router = useRouter();
-  const [loginformData, setloginFormData] = useState(initialLoginFormData);
-
-  const handleUserLogin = async () => {
-    const result = await loginUser(loginformData);
-    if (result?.success) {
-      alert("User Logged in successfully");
-      router.push("/");
-    }
-    const passedToken = result?.token;
-    localStorage.setItem("token", passedToken);
-    console.log(passedToken);
-  };
-
-  return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-sm p-8 space-y-6 bg-white rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-center text-gray-700">Login</h1>
-        <form action={handleUserLogin} className="space-y-4">
-          {userLoginFormControls.map((controlItem, index) => (
-            <div key={index} className="flex flex-col space-y-2">
-              <Label className="text-gray-600">{controlItem.label}</Label>
-              <Input
-                name={controlItem.name}
-                id={controlItem.name}
-                placeholder={controlItem.placeholder}
-                type={controlItem.type}
-                value={loginformData[controlItem.name]}
-                onChange={(e) =>
-                  setloginFormData({
-                    ...loginformData,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-          ))}
-          <Button
-            type="submit"
-            className="w-full py-2 mt-4 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-          >
-            Login
-          </Button>
-        </form>
-      </div>
-    </div>
-  );
+  return <AuthSignIn />;
 };
 
 export default SignIn;
+
+export async function generateMetadata() {
+  return {
+    title: "Auth Home Page - Dynamic Title",
+    description: "Securely connect with dynamic metadata",
+    openGraph: {
+      title: "Auth Home Page - Secure Connection",
+      description: "Log in securely with our dynamic authentication system.",
+      url: "https://yourwebsite.com/signin", // Update with the actual URL
+      siteName: "Your Site Name",
+      images: [
+        {
+          url: "https://e7.pngegg.com/pngimages/549/715/png-clipart-web-development-logo-website-web-design-symmetry.png", // Update with the actual image URL
+          width: 800,
+          height: 600,
+          alt: "Login page preview image",
+        },
+      ],
+      locale: "en_US",
+      type: "website",
+    },
+  };
+}
